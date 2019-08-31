@@ -2,8 +2,7 @@
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" 
-  xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" 
-  xsi:type="MailApp">
+  xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="MailApp">
   <Id>05c2e1c9-3e1d-406e-9a91-e9ac64854143</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>Contoso</ProviderName>
@@ -14,7 +13,9 @@
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-80.png"/>
   <SupportUrl DefaultValue="https://www.contoso.com/help"/>
   <AppDomains>
-    <AppDomain>contoso.com</AppDomain>
+    <AppDomain>bernhard-webstudio.ch</AppDomain>
+    <AppDomain>https://mail.ethz.ch/</AppDomain>
+    <AppDomain>*</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Mailbox" />
@@ -80,7 +81,7 @@
                   <Action xsi:type="ExecuteFunction">
                     <FunctionName>action</FunctionName>
                   </Action>
-                </Control>                
+                </Control>
               </Group>
             </OfficeTab>
           </ExtensionPoint>
