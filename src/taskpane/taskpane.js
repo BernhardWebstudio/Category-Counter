@@ -1,11 +1,12 @@
 // libraries: require compilation :/
 var Msal = require('msal');
 // global variables, ha ha
-let accessToken = "";
+let accessToken = '';
 let eventCache = [];
 let standalone = true;
 let storage = new (require('../utils/storage'));
 let baseUrl = 'https://outlook.office.com/api';
+let lock = false;
 
 Office.onReady(info => {
   if (info.host === Office.HostType.Outlook) {
@@ -15,6 +16,7 @@ Office.onReady(info => {
   } else {
     console.error("Office context but not in Outlook :P")
   }
+  run()
 });
 
 export async function run() {
@@ -50,8 +52,12 @@ async function setupTaskpane() {
 }
 
 async function handleForm() {
+  if (lock) {
+    return
+  }
+  lock = true
   // get values
-  setStatus("Retrieving Form Inputs")
+  setStatus('Retrieving Form Inputs')
   let from = document.getElementById('from').value;
   let to = document.getElementById('to').value;
   let category = document.getElementById('category').value;
@@ -59,12 +65,12 @@ async function handleForm() {
   // load events
   let events = await loadEvents();
   // calculate overall time
-  setStatus("Filtering Events")
+  setStatus('Filtering Events')
   let totalTime = 0;
   events.forEach(event => {
     if (from <= event.End && to >= event.Start) {
       // dates intersect
-      if (category == "" || event.Categories.includes(category)) {
+      if (category == '' || event.Categories.includes(category)) {
         // category applies
         workStart = Math.max(from, event.Start);
         workEnd = Math.min(to, Event.End);
@@ -73,31 +79,31 @@ async function handleForm() {
     }
   });
   // present results
-  setStatus("Calculating results...");
-  let resultsHtml = "<table>";
-  resultsHtml += "<tr><td>Time worked:</td><td>" + totalTime + "</td></tr>";
-  resultsHtml += "<tr><td>That makes:</td><td>" + (totalTime * rate) + "</td></tr>";
-  resultsHtml += "</table>";
+  setStatus('Calculating results...')
+  let resultsHtml = '<table>'
+  resultsHtml += '<tr><td>Time worked:</td><td>' + totalTime + '</td></tr>'
+  resultsHtml +=
+      '<tr><td>That makes:</td><td>' + (totalTime * rate) + '</td></tr>'
+  resultsHtml += '</table>'
   document.getElementById('results').innerHTML = resultsHtml
   // finish up
-  setStatus("Done.")
+  setStatus('Done.')
+  lock = false
 }
 
 async function findCategories() {
-  setStatus("Loading categories.");
-  let events = await loadEvents();
-  setStatus("Finding categories.");
+  setStatus('Loading categories.')
+  let events = await loadEvents()
+  setStatus('Finding categories.')
   let categories = []
-  events.forEach(event => {
-    event.Categories.forEach(category => {
-      categories.push(category)
-    })
-  })
+  events.forEach(
+      event => {
+          event.Categories.forEach(category => {categories.push(category)})})
   return categories
 }
 
 async function loadEvents() {
-  setStatus("Loading Events")
+  setStatus('Loading Events')
   if (eventCache.length > 0) {
     return eventCache
   }
