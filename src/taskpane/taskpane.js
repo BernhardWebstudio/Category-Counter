@@ -1,12 +1,19 @@
+// libraries: require compilation :/
+var Msal = require('msal');
 // global variables, ha ha
 let accessToken = "";
 let eventCache = [];
+let standalone = true;
+let storage = new (require('../utils/storage'));
+let baseUrl = 'https://outlook.office.com/api';
 
 Office.onReady(info => {
   if (info.host === Office.HostType.Outlook) {
-    document.getElementById("sideload-msg").style.display = "none";
-    document.getElementById("app-body").style.display = "flex";
-    document.getElementById("run").onclick = run;
+    standalone = false;
+
+    baseUrl = Office.context.mailbox.restUrl;
+  } else {
+    console.error("Office context but not in Outlook :P")
   }
 });
 
@@ -14,32 +21,32 @@ export async function run() {
   /**
    * Insert your Outlook code here
    */
-  setupTaskpane();
+  await setupTaskpane();
 }
 
-function setupTaskpane() {
+async function setupTaskpane() {
   // on value change: handleForm
-  inputs = ['from', 'to', 'category', 'rate']
+  inputs = ['from', 'to', 'category', 'rate'];
   inputs.forEach(inputId => {
-    let input = document.getElementById(inputId)
-    input.onblur = handleForm()
-  })
-  rateInput = document.getElementById('rate')
+    let input = document.getElementById(inputId);
+    input.onblur = handleForm();
+  });
+  rateInput = document.getElementById('rate');
   rateInput.onblur(() => {
-    Office.context.document.settings.set('rate', rateInput.value)
+    storage.setItem('rate', rateInput.value);
   })
-  let rate = Office.context.document.settings.get('rate')
+  let rate = storage.getItem('rate');
   if (rate) {
     rateInput.value = rate;
   }
   // set default values
-  let allCategories = await findCategories()
-  let options = document.getElementsByName("category").innerHTML
+  let allCategories = await findCategories();
+  let options = document.getElementsByName("category").innerHTML;
   allCategories.forEach(category => {
-    options += "<option value='" + category + "'>" + category + "</option>"
+    options += "<option value='" + category + "'>" + category + "</option>";
   })
-  document.getElementsByName("category").innerHTML = options
-  setStatus("Setup finished")
+  document.getElementsByName("category").innerHTML = options;
+  setStatus("Setup finished");
 }
 
 async function handleForm() {
@@ -50,7 +57,7 @@ async function handleForm() {
   let category = document.getElementById('category').value;
   let rate = document.getElementById('rate').value;
   // load events
-  let events = await loadEvents()
+  let events = await loadEvents();
   // calculate overall time
   setStatus("Filtering Events")
   let totalTime = 0;
@@ -59,27 +66,27 @@ async function handleForm() {
       // dates intersect
       if (category == "" || event.Categories.includes(category)) {
         // category applies
-        workStart = Math.max(from, event.Start)
-        workEnd = Math.min(to, Event.End)
-        totalTime += workEnd - workStart
+        workStart = Math.max(from, event.Start);
+        workEnd = Math.min(to, Event.End);
+        totalTime += workEnd - workStart;
       }
     }
   });
   // present results
-  setStatus("Calculating results...")
-  let resultsHtml = "<table>"
-  resultsHtml += "<tr><td>Time worked:</td><td>" + totalTime + "</td></tr>"
-  resultsHtml += "<tr><td>That makes:</td><td>" + (totalTime * rate) + "</td></tr>"
-  resultsHtml += "</table>"
+  setStatus("Calculating results...");
+  let resultsHtml = "<table>";
+  resultsHtml += "<tr><td>Time worked:</td><td>" + totalTime + "</td></tr>";
+  resultsHtml += "<tr><td>That makes:</td><td>" + (totalTime * rate) + "</td></tr>";
+  resultsHtml += "</table>";
   document.getElementById('results').innerHTML = resultsHtml
   // finish up
   setStatus("Done.")
 }
 
 async function findCategories() {
-  setStatus("Loading categories.")
-  let events = await loadEvents()
-  setStatus("Finding categories.")
+  setStatus("Loading categories.");
+  let events = await loadEvents();
+  setStatus("Finding categories.");
   let categories = []
   events.forEach(event => {
     event.Categories.forEach(category => {
@@ -97,7 +104,7 @@ async function loadEvents() {
   if (!accessToken) {
     await login();
   }
-  let restUrl = Office.context.mailbox.restUrl + '/v2.0/me/events?$select=Start,End,Categories';
+  let restUrl = baseUrl + '/v2.0/me/events?$select=Start,End,Categories';
   return new Promise(resolve => {
     fetch(restUrl, {
       headers: {
@@ -116,15 +123,51 @@ async function loadEvents() {
 }
 
 async function login() {
-  return new Promise(resolve =>
-    Office.context.mailbox.getCallbackTokenAsync({ isRest: true }, function (result) {
-      if (result.status === "succeeded") {
-        accessToken = result.value;
-      } else {
-        setStatus("Got error logging in: " + result.status)
+  return new Promise(resolve => {
+    if (standalone) {
+      // try login via OAuth2
+      var msalConfig = require('../config.js');
+      var myMSALObj = new Msal.UserAgentApplication(msalConfig);
+      var requestObj = {
+        scopes: ["user.read"]
       }
-      resolve();
-    })
+      var loggedIn = storage.getItem('loggedIn');
+      if (!loggedIn) {
+        myMSALObj.loginPopup(requestObj).then(function (loginResponse) {
+          //Login Success callback
+          storage.setItem('loggedIn', true);
+        }).catch(function (error) {
+          console.log(error);
+          setStatus("Got error logging in: " + error);
+        });
+      }
+      // Acquire access token
+      myMSALObj.acquireTokenSilent(requestObj).then(function (tokenResponse) {
+        accessToken = tokenResponse.accessToken;
+        resolve();
+      }).catch(function (error) {
+        console.log(error);
+        // silent failed. Try interactively:
+        myMSALObj.acquireTokenPopup(requestObj).then(function (tokenResponse) {
+          accessToken = tokenResponse.accessToken;
+          resolve();
+        }).catch(function (error) {
+          console.log(error);
+          setStatus("Got error logging in: " + error);
+        });
+      });
+    } else {
+      // Get login from 
+      Office.context.mailbox.getCallbackTokenAsync({ isRest: true }, function (result) {
+        if (result.status === "succeeded") {
+          accessToken = result.value;
+        } else {
+          setStatus("Got error logging in: " + result.status)
+        }
+        resolve();
+      })
+    }
+  }
   );
 }
 
