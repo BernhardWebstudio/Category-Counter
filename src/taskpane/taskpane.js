@@ -1,185 +1,204 @@
-// libraries: require compilation :/
-var Msal = require('msal');
+const Moment = require('moment');
+const MomentRange = require('moment-range');
+const moment = MomentRange.extendMoment(Moment);
 // global variables, ha ha
-let accessToken = '';
 let eventCache = [];
-let standalone = true;
-let storage = new (require('../utils/storage'));
-let baseUrl = 'https://outlook.office.com/api';
-let lock = false;
+const storage = (require('../utils/storage')).default;
+const restHandler = (require('../utils/restHandler')).default;
+let baseUrl = 'https://graph.microsoft.com/';
 
+// Office ready
 Office.onReady(info => {
   if (info.host === Office.HostType.Outlook) {
-    standalone = false;
-
     baseUrl = Office.context.mailbox.restUrl;
+    run();
   } else {
-    console.error("Office context but not in Outlook :P")
+    console.error("Office context available but not in Outlook :P")
   }
-  run()
 });
+// Window (standalone) ready
+if (window) {
+  window.addEventListener('load', () => {
+    run();
+  });
+}
 
 export async function run() {
-  /**
-   * Insert your Outlook code here
-   */
   await setupTaskpane();
 }
 
 async function setupTaskpane() {
+  // set default values
+  findCategories().then(allCategories => {
+    let options = document.getElementById("category").innerHTML;
+    if (!options) {
+      options = "<option value=''>Any</option>";
+    }
+    allCategories.forEach(category => {
+      options += "<option value='" + category + "'>" + category + "</option>";
+    })
+    console.log("options", options);
+    document.getElementById("category").innerHTML = options;
+    setStatus("Setting up categories finished");
+  }).catch(error => {
+    console.error(error);
+    setStatus("Failed setting up categories: " + error);
+  });
   // on value change: handleForm
-  inputs = ['from', 'to', 'category', 'rate'];
+  let inputs = ['daterange', 'category', 'rate'];
   inputs.forEach(inputId => {
     let input = document.getElementById(inputId);
     input.onblur = handleForm();
   });
-  rateInput = document.getElementById('rate');
-  rateInput.onblur(() => {
+  let rateInput = document.getElementById('rate');
+  rateInput.onblur = () => {
     storage.setItem('rate', rateInput.value);
-  })
+  };
   let rate = storage.getItem('rate');
   if (rate) {
     rateInput.value = rate;
   }
-  // set default values
-  let allCategories = await findCategories();
-  let options = document.getElementsByName("category").innerHTML;
-  allCategories.forEach(category => {
-    options += "<option value='" + category + "'>" + category + "</option>";
+  await setupDatepicker();
+  let submitBtn = document.getElementById('submitBtn');
+  submitBtn.addEventListener('click', function (event) {
+    event.preventDefault();
+    handleForm();
   })
-  document.getElementsByName("category").innerHTML = options;
+
   setStatus("Setup finished");
 }
 
-async function handleForm() {
-  if (lock) {
-    return
+async function setupDatepicker() {
+  setStatus("Setting up DatePicker");
+  $('input[name="daterange"]').daterangepicker({
+    time: true,
+  }, handleForm);
+  loadEvents().then(events => {
+    let minDate = parseOutlookDate(events[0].start);
+    let maxDate = parseOutlookDate(events[0].end);
+    // find first & last events
+    events.forEach(event => {
+      let eventStart = parseOutlookDate(event.start);
+      let eventEnd = parseOutlookDate(event.end);
+      if (minDate > eventStart) {
+        minDate = eventStart;
+      }
+      if (maxDate < eventEnd) {
+        maxDate = eventEnd;
+      }
+    });
+    // initialize date picker
+    $('input[name="daterange"]').daterangepicker({
+      time: true,
+      minDate: minDate,
+      maxDate: maxDate
+    }, handleForm);
+    setStatus("Setting up DatePicker finished");
+  });
+}
+
+function parseOutlookDate(date) {
+  if (date.timeZone === "UTC") {
+    // return moment.utc(date.dateTime)
+    return moment(date.dateTime);
+  } else {
+    console.error("Unsupported TimeZone: " + date.timeZone);
+    return moment(date.dateTime);
   }
-  lock = true
+}
+
+async function handleForm() {
   // get values
   setStatus('Retrieving Form Inputs')
-  let from = document.getElementById('from').value;
-  let to = document.getElementById('to').value;
-  let category = document.getElementById('category').value;
+  var drp = $('input[name="daterange"]').data('daterangepicker');
+  let from = drp.startDate;
+  let to = drp.endDate;
+  let targetRange = moment().range(from, to);
+  let category = document.getElementById('category').value.trim();
   let rate = document.getElementById('rate').value;
   // load events
   let events = await loadEvents();
   // calculate overall time
-  setStatus('Filtering Events')
+  setStatus('Filtering Events');
   let totalTime = 0;
   events.forEach(event => {
-    if (from <= event.End && to >= event.Start) {
+    let eventStart = parseOutlookDate(event.start);
+    let eventEnd = parseOutlookDate(event.end);
+    let eventRange = moment().range(eventStart, eventEnd);
+    if (targetRange.overlaps(eventRange)) {
       // dates intersect
-      if (category == '' || event.Categories.includes(category)) {
+      if (category === '' || event.categories.includes(category)) {
         // category applies
-        workStart = Math.max(from, event.Start);
-        workEnd = Math.min(to, Event.End);
-        totalTime += workEnd - workStart;
+        let intersection = targetRange.intersect(eventRange);
+        totalTime += intersection + 0; // milliseconds
+      } else {
+        console.log("Category '" + category + "' not included.", event.categories)
       }
+    } else {
+      console.log("Do not apply:")
+      console.log([targetRange, eventRange]);
     }
   });
   // present results
-  setStatus('Calculating results...')
-  let resultsHtml = '<table>'
-  resultsHtml += '<tr><td>Time worked:</td><td>' + totalTime + '</td></tr>'
-  resultsHtml +=
-      '<tr><td>That makes:</td><td>' + (totalTime * rate) + '</td></tr>'
-  resultsHtml += '</table>'
-  document.getElementById('results').innerHTML = resultsHtml
+  setStatus('Calculating results...');
+  let resultsHtml = '<table>';
+  resultsHtml += '<tr><td>Time worked:</td><td>' + (totalTime / 3.6e+6) + ' h</td></tr>';
+  resultsHtml += '<tr><td>That makes:</td><td>' + (totalTime / 3.6e+6 * rate) + '</td></tr>';
+  resultsHtml += '</table>';
+  document.getElementById('results').innerHTML = resultsHtml;
   // finish up
-  setStatus('Done.')
-  lock = false
+  setStatus('Done.');
 }
 
-async function findCategories() {
-  setStatus('Loading categories.')
-  let events = await loadEvents()
-  setStatus('Finding categories.')
-  let categories = []
-  events.forEach(
-      event => {
-          event.Categories.forEach(category => {categories.push(category)})})
-  return categories
+function findCategories() {
+  return new Promise(resolve => {
+    setStatus('Loading categories.')
+    loadEvents().then(events => {
+      setStatus('Finding categories.')
+      let categories = []
+      console.log(events);
+      events.forEach(
+        event => {
+          event.categories.forEach(category => { categories.push(category) })
+        })
+      resolve(categories);
+    }).catch(error => {
+      console.error(error);
+      setStatus("Got error finding categories: " + JSON.stringify(error));
+      throw error; // throw futher up
+    });
+  });
 }
 
 async function loadEvents() {
-  setStatus('Loading Events')
-  if (eventCache.length > 0) {
-    return eventCache
-  }
-  if (!accessToken) {
-    await login();
-  }
-  let restUrl = baseUrl + '/v2.0/me/events?$select=Start,End,Categories';
   return new Promise(resolve => {
-    fetch(restUrl, {
-      headers: {
-        'Authorization': 'Bearer ' + accessToken,
-        'Content-Type': 'application/json'
-      }
-    }).then(function (response) {
-      return response.json()
-    }).then(function (results) {
-      resolve(results)
-    }).catch(function (error) {
-      console.error(error)
-      setStatus("Got error fetching events: " + JSON.stringify(error))
-    })
-  })
-}
-
-async function login() {
-  return new Promise(resolve => {
-    if (standalone) {
-      // try login via OAuth2
-      var msalConfig = require('../config.js');
-      var myMSALObj = new Msal.UserAgentApplication(msalConfig);
-      var requestObj = {
-        scopes: ["user.read"]
-      }
-      var loggedIn = storage.getItem('loggedIn');
-      if (!loggedIn) {
-        myMSALObj.loginPopup(requestObj).then(function (loginResponse) {
-          //Login Success callback
-          storage.setItem('loggedIn', true);
-        }).catch(function (error) {
-          console.log(error);
-          setStatus("Got error logging in: " + error);
-        });
-      }
-      // Acquire access token
-      myMSALObj.acquireTokenSilent(requestObj).then(function (tokenResponse) {
-        accessToken = tokenResponse.accessToken;
-        resolve();
-      }).catch(function (error) {
-        console.log(error);
-        // silent failed. Try interactively:
-        myMSALObj.acquireTokenPopup(requestObj).then(function (tokenResponse) {
-          accessToken = tokenResponse.accessToken;
-          resolve();
-        }).catch(function (error) {
-          console.log(error);
-          setStatus("Got error logging in: " + error);
-        });
-      });
-    } else {
-      // Get login from 
-      Office.context.mailbox.getCallbackTokenAsync({ isRest: true }, function (result) {
-        if (result.status === "succeeded") {
-          accessToken = result.value;
-        } else {
-          setStatus("Got error logging in: " + result.status)
-        }
-        resolve();
-      })
+    setStatus('Loading Events')
+    if (eventCache.length > 0) {
+      resolve(eventCache); return;
     }
-  }
-  );
+    let restUrl = baseUrl + '/v1.0/me/events?$select=Start,End,Categories';
+    try {
+      let p = restHandler.makeGetRequest(restUrl);
+      console.log(p);
+      p.then((results) => {
+        resolve(results.value);
+      }).catch(error => {
+        console.error(error);
+        setStatus("Got error fetching events: " + JSON.stringify(error));
+        throw error;
+      })
+    } catch (error) {
+      console.error(error);
+      setStatus("Got error fetching events: " + JSON.stringify(error));
+      throw error; // throw futher up
+    }
+  });
 }
 
 function setStatus(status) {
   let statusSpan = document.getElementById('status');
   statusSpan.innerText = status;
+  console.log(status);
 }
 
 function emptyCache() {

@@ -15,38 +15,58 @@
     <link rel="stylesheet"
         href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.6.1/css/fabric.min.css" />
 
+    <!-- date related -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/moment-range/4.0.2/moment-range.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
     <!-- Template styles -->
     <link href="taskpane.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body class="ms-font-m ms-welcome ms-Fabric">
-    <header class="ms-welcome__header ms-bgColor-neutralLighter">
+<body class="ms-font-m ms-Fabric ms-bgColor-Gray30">
+    <header class="ms-bgColor-neutralLighter">
         <h1 class="ms-font-su">Category Counter</h1>
     </header>
-    <main id="app-body" class="ms-welcome__main">
-        <form>
-            <label>From
-                <input type="datetime" id="from" name="from" />
-            </label>
-            <label>To
-                <input type="datetime" id="to" name="to" />
-            </label>
-            <label>
-                Category
-                <select name="category" id="category">
-                    <option value="">Any</option>
-                </select>
-            </label>
-            <label>
-                Hourly Rate
-                <input type="number" id="rate" name="rate" />
-            </label>
+    <main id="app-body">
+        <form onsubmit="return false">
+            <div class="ms-Grid" dir="ltr">
+                <div class="ms-md12 ms-lg6">
+                    <label class="ms-Label">Between
+                        <input type="datetime" id="daterange" name="daterange" />
+                    </label>
+                </div>
+                <div class="ms-Dropdown ms-md12 ms-lg6" tabindex="0">
+                    <label class="ms-Label">
+                        Category
+                    </label>
+                    <!-- <i class="ms-Dropdown-caretDown ms-Icon ms-Icon--ChevronDown"></i> -->
+                    <select name="category" id="category">
+                        <option value="">Any</option>
+                    </select>
+                </div>
+                <div class="ms-TextField ms-md12 ms-lg6">
+                    <label class="ms-Label">
+                        Hourly Rate
+                        <input class="ms-TextField-field" type="number" id="rate" name="rate" />
+                    </label>
+                </div>
+                <div class="button-wrapper ms-md12 ms-lg6">
+                    <button class="ms-Button" id="submitBtn">
+                        <span class="ms-Button-label">Go!</span>
+                    </button>
+                </div>
+            </div>
         </form>
-        <hr />
-        <div>Status: <span id="status">Setting up...</span></div>
-        <hr />
-        <h2 class="ms-font-xl"> Results </h2>
-        <div id="results">No results yet.</div>
+        <section class="results ms-depth-8 ms-bgColor-Gray10">
+            <h2 class="ms-font-xl"> Results </h2>
+            <div id="results">No results yet.</div>
+        </section>
+        <section class="status ms-depth-8 ms-bgColor-Gray20">
+            <div>Status: <span id="status">Setting up...</span></div>
+        </section>
     </main>
 </body>
 

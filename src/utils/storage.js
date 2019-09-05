@@ -1,5 +1,4 @@
 class Storage {
-  standalone = false
 
   constructor() {
     this.checkStandalone();
@@ -9,7 +8,7 @@ class Storage {
     try {
       this.standalone = info.host === Office.HostType.Outlook;
     } catch (e) {
-      this.standalone = false;
+      this.standalone = true;
     }
   }
 
@@ -32,4 +31,4 @@ class Storage {
   }
 }
 
-
+export default new Storage();
