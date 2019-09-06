@@ -4,16 +4,11 @@ import msalConfig from '../config.js';
 
 class RESTHandler {
   constructor() {
-    this.checkStandalone();
+    this.standalone = true;
   }
 
-  checkStandalone() {
-    try {
-      this.standalone = info.host === Office.HostType.Outlook;
-    } catch (e) {
-      this.standalone = true;
-      this.myMSALObj = new Msal.UserAgentApplication(msalConfig);
-    }
+  setStandalone(standalone) {
+    this.standalone = standalone;
   }
 
   async makeGetRequest(url) {
@@ -64,10 +59,11 @@ class RESTHandler {
         })
       }
     } else {// Get login from/for Outlook
+      let self = this;
       return new Promise(resolve => {
         Office.context.mailbox.getCallbackTokenAsync({ isRest: true }, function (result) {
           if (result.status === "succeeded") {
-            this.accessToken = result.value;
+            self.accessToken = result.value;
           } else {
             console.error("Got error logging in: " + result.status)
           }

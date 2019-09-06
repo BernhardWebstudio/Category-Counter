@@ -1,19 +1,13 @@
 class Storage {
-
   constructor() {
-    this.checkStandalone();
+    this.standalone = true;
   }
 
-  checkStandalone() {
-    try {
-      this.standalone = info.host === Office.HostType.Outlook;
-    } catch (e) {
-      this.standalone = true;
-    }
+  setStandalone(standalone) {
+    this.standalone = standalone;
   }
 
   setItem(key, value) {
-    this.checkStandalone() // check again because we could have been instantiated too early
     if (this.standalone) {
       localStorage.setItem(key, value);
     } else {
@@ -22,7 +16,6 @@ class Storage {
   }
 
   getItem(key) {
-    this.checkStandalone() // check again because we could have been instantiated too early
     if (this.standalone) {
       localStorage.getItem(key);
     } else {

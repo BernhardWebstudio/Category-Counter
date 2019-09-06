@@ -11,13 +11,15 @@ let baseUrl = 'https://graph.microsoft.com/';
 Office.onReady(info => {
   if (info.host === Office.HostType.Outlook) {
     baseUrl = Office.context.mailbox.restUrl;
-    run();
+    restHandler.setStandalone(false);
+    storage.setStandalone(false);
   } else {
-    console.error("Office context available but not in Outlook :P")
+    console.error('Office context available but not in Outlook :P')
   }
+  run();
 });
 // Window (standalone) ready
-if (window) {
+if (window && !Office) {
   window.addEventListener('load', () => {
     run();
   });
@@ -29,21 +31,24 @@ export async function run() {
 
 async function setupTaskpane() {
   // set default values
-  findCategories().then(allCategories => {
-    let options = document.getElementById("category").innerHTML;
-    if (!options) {
-      options = "<option value=''>Any</option>";
-    }
-    allCategories.forEach(category => {
-      options += "<option value='" + category + "'>" + category + "</option>";
-    })
-    console.log("options", options);
-    document.getElementById("category").innerHTML = options;
-    setStatus("Setting up categories finished");
-  }).catch(error => {
-    console.error(error);
-    setStatus("Failed setting up categories: " + error);
-  });
+  findCategories()
+      .then(allCategories => {
+        let options = document.getElementById('category').innerHTML;
+        if (!options) {
+          options = '<option value=\'\'>Any</option>';
+        }
+        allCategories.forEach(category => {
+          options +=
+              '<option value=\'' + category + '\'>' + category + '</option>';
+        })
+        console.log('options', options);
+        document.getElementById('category').innerHTML = options;
+        setStatus('Setting up categories finished');
+      })
+      .catch(error => {
+        console.error(error);
+        setStatus('Failed setting up categories: ' + error);
+      });
   // on value change: handleForm
   let inputs = ['daterange', 'category', 'rate'];
   inputs.forEach(inputId => {
@@ -60,19 +65,22 @@ async function setupTaskpane() {
   }
   await setupDatepicker();
   let submitBtn = document.getElementById('submitBtn');
-  submitBtn.addEventListener('click', function (event) {
+  submitBtn.addEventListener('click', function(event) {
     event.preventDefault();
     handleForm();
   })
 
-  setStatus("Setup finished");
+  setStatus('Setup finished');
 }
 
 async function setupDatepicker() {
-  setStatus("Setting up DatePicker");
-  $('input[name="daterange"]').daterangepicker({
-    time: true,
-  }, handleForm);
+  setStatus('Setting up DatePicker');
+  $('input[name="daterange"]')
+      .daterangepicker(
+          {
+            time: true,
+          },
+          handleForm);
   loadEvents().then(events => {
     let minDate = parseOutlookDate(events[0].start);
     let maxDate = parseOutlookDate(events[0].end);
@@ -88,21 +96,19 @@ async function setupDatepicker() {
       }
     });
     // initialize date picker
-    $('input[name="daterange"]').daterangepicker({
-      time: true,
-      minDate: minDate,
-      maxDate: maxDate
-    }, handleForm);
-    setStatus("Setting up DatePicker finished");
+    $('input[name="daterange"]')
+        .daterangepicker(
+            {time: true, minDate: minDate, maxDate: maxDate}, handleForm);
+    setStatus('Setting up DatePicker finished');
   });
 }
 
 function parseOutlookDate(date) {
-  if (date.timeZone === "UTC") {
+  if (date.timeZone === 'UTC') {
     // return moment.utc(date.dateTime)
     return moment(date.dateTime);
   } else {
-    console.error("Unsupported TimeZone: " + date.timeZone);
+    console.error('Unsupported TimeZone: ' + date.timeZone);
     return moment(date.dateTime);
   }
 }
@@ -130,20 +136,23 @@ async function handleForm() {
       if (category === '' || event.categories.includes(category)) {
         // category applies
         let intersection = targetRange.intersect(eventRange);
-        totalTime += intersection + 0; // milliseconds
+        totalTime += intersection + 0;  // milliseconds
       } else {
-        console.log("Category '" + category + "' not included.", event.categories)
+        console.log(
+            'Category \'' + category + '\' not included.', event.categories)
       }
     } else {
-      console.log("Do not apply:")
+      console.log('Do not apply:')
       console.log([targetRange, eventRange]);
     }
   });
   // present results
   setStatus('Calculating results...');
   let resultsHtml = '<table>';
-  resultsHtml += '<tr><td>Time worked:</td><td>' + (totalTime / 3.6e+6) + ' h</td></tr>';
-  resultsHtml += '<tr><td>That makes:</td><td>' + (totalTime / 3.6e+6 * rate) + '</td></tr>';
+  resultsHtml +=
+      '<tr><td>Time worked:</td><td>' + (totalTime / 3.6e+6) + ' h</td></tr>';
+  resultsHtml += '<tr><td>That makes:</td><td>' + (totalTime / 3.6e+6 * rate) +
+      '</td></tr>';
   resultsHtml += '</table>';
   document.getElementById('results').innerHTML = resultsHtml;
   // finish up
@@ -153,20 +162,21 @@ async function handleForm() {
 function findCategories() {
   return new Promise(resolve => {
     setStatus('Loading categories.')
-    loadEvents().then(events => {
-      setStatus('Finding categories.')
-      let categories = []
-      console.log(events);
-      events.forEach(
-        event => {
-          event.categories.forEach(category => { categories.push(category) })
+    loadEvents()
+        .then(events => {
+          setStatus('Finding categories.')
+          let categories = []
+          console.log(events);
+          events.forEach(
+              event => {event.categories.forEach(
+                  category => {categories.push(category)})})
+          resolve(categories);
         })
-      resolve(categories);
-    }).catch(error => {
-      console.error(error);
-      setStatus("Got error finding categories: " + JSON.stringify(error));
-      throw error; // throw futher up
-    });
+        .catch(error => {
+          console.error(error);
+          setStatus('Got error finding categories: ' + JSON.stringify(error));
+          throw error;  // throw futher up
+        });
   });
 }
 
@@ -174,23 +184,24 @@ async function loadEvents() {
   return new Promise(resolve => {
     setStatus('Loading Events')
     if (eventCache.length > 0) {
-      resolve(eventCache); return;
+      resolve(eventCache);
+      return;
     }
     let restUrl = baseUrl + '/v1.0/me/events?$select=Start,End,Categories';
     try {
       let p = restHandler.makeGetRequest(restUrl);
       console.log(p);
       p.then((results) => {
-        resolve(results.value);
-      }).catch(error => {
+         resolve(results.value);
+       }).catch(error => {
         console.error(error);
-        setStatus("Got error fetching events: " + JSON.stringify(error));
+        setStatus('Got error fetching events: ' + JSON.stringify(error));
         throw error;
       })
     } catch (error) {
       console.error(error);
-      setStatus("Got error fetching events: " + JSON.stringify(error));
-      throw error; // throw futher up
+      setStatus('Got error fetching events: ' + JSON.stringify(error));
+      throw error;  // throw futher up
     }
   });
 }

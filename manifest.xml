@@ -13,7 +13,10 @@
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-80.png"/>
   <SupportUrl DefaultValue="https://www.bernhard-webstudio.ch/help"/>
   <AppDomains>
-    <AppDomain>bernhard-webstudio.ch</AppDomain>
+    <AppDomain>https://bernhard-webstudio.ch</AppDomain>
+    <AppDomain>https://localhost:3000</AppDomain>
+    <AppDomain>https://mail.ethz.ch</AppDomain>
+    <AppDomain>https://graph.microsoft.com/</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Mailbox" />
@@ -46,7 +49,7 @@
       <Host xsi:type="MailHost">
         <DesktopFormFactor>
           <FunctionFile resid="Commands.Url" />
-          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+          <ExtensionPoint xsi:type="MessageReadCommandSurface">
             <OfficeTab id="TabDefault">
               <Group id="msgReadGroup">
                 <Label resid="GroupLabel" />
