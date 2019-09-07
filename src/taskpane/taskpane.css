@@ -10,15 +10,18 @@ body {
     margin: 0;
     padding: 0;
     background-color: #dddddd;
+    font-size: 150%;
 }
 
 hr {
     width: 100%;
 }
 
-section {
+section, header {
+    background-color: #fefefe;
+    color: #010101;
     margin: 1em;
-    width: 100%;
+    padding: 1em;
 }
 
 section.results {

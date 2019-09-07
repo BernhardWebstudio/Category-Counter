@@ -1,10 +1,17 @@
 // libraries: require compilation :/
-var Msal = require('msal');
+import * as Msal from "msal";
 import msalConfig from '../config.js';
 
 class RESTHandler {
   constructor() {
+    console.log("Inst. restHandler");
     this.standalone = true;
+    try {
+      this.myMSALObj = new Msal.UserAgentApplication(msalConfig);
+    } catch (error) {
+      console.error(error);
+    }
+    console.log("Finished Inst. restHandler");
   }
 
   setStandalone(standalone) {
@@ -74,12 +81,13 @@ class RESTHandler {
   }
 
   signIn(tokenCallback) {
+    let self = this;
     this.myMSALObj.loginPopup({
       scopes: msalConfig.graphScopes
     }).then(function (loginResponse) {
       //Login Success
       console.log(loginResponse);
-      this.acquireToken(tokenCallback);
+      self.acquireToken(tokenCallback);
     }).catch(function (error) {
       console.error(error);
     });

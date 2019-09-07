@@ -1,11 +1,21 @@
+console.log("0");
 const Moment = require('moment');
+console.log("1");
+
 const MomentRange = require('moment-range');
+console.log("2");
+
 const moment = MomentRange.extendMoment(Moment);
+console.log("3");
+
 // global variables, ha ha
 let eventCache = [];
 const storage = (require('../utils/storage')).default;
+console.log("5");
 const restHandler = (require('../utils/restHandler')).default;
+console.log("6");
 let baseUrl = 'https://graph.microsoft.com/';
+console.log("7");
 
 // Office ready
 Office.onReady(info => {
@@ -31,24 +41,25 @@ export async function run() {
 
 async function setupTaskpane() {
   // set default values
-  findCategories()
-      .then(allCategories => {
-        let options = document.getElementById('category').innerHTML;
-        if (!options) {
-          options = '<option value=\'\'>Any</option>';
-        }
-        allCategories.forEach(category => {
-          options +=
-              '<option value=\'' + category + '\'>' + category + '</option>';
-        })
-        console.log('options', options);
-        document.getElementById('category').innerHTML = options;
-        setStatus('Setting up categories finished');
-      })
-      .catch(error => {
-        console.error(error);
-        setStatus('Failed setting up categories: ' + error);
-      });
+  try {
+    // await categories so we have them in cache afterwards and reduce number of 
+    // unnecessary API calls
+    let allCategories = await findCategories();
+    let options = document.getElementById('category').innerHTML;
+    if (!options) {
+      options = '<option value=\'\'>Any</option>';
+    }
+    allCategories.forEach(category => {
+      options +=
+        '<option value=\'' + category + '\'>' + category + '</option>';
+    })
+    console.log('options', options);
+    document.getElementById('category').innerHTML = options;
+    setStatus('Setting up categories finished');
+  } catch (error) {
+    console.error(error);
+    setStatus('Failed setting up categories: ' + error);
+  }
   // on value change: handleForm
   let inputs = ['daterange', 'category', 'rate'];
   inputs.forEach(inputId => {
@@ -65,7 +76,7 @@ async function setupTaskpane() {
   }
   await setupDatepicker();
   let submitBtn = document.getElementById('submitBtn');
-  submitBtn.addEventListener('click', function(event) {
+  submitBtn.addEventListener('click', function (event) {
     event.preventDefault();
     handleForm();
   })
@@ -75,12 +86,46 @@ async function setupTaskpane() {
 
 async function setupDatepicker() {
   setStatus('Setting up DatePicker');
-  $('input[name="daterange"]')
-      .daterangepicker(
-          {
-            time: true,
-          },
-          handleForm);
+  let genericDatePickerConfig = {
+    showDropdowns: true,
+    // timePicker: true,
+    // timePickerIncrement: 60,
+    linkedCalendars: false,
+    locale: {
+      "format": "YYYY/MM/DD", // DD.MM.YYYY unfortunately leads to problems
+      "separator": " - ",
+      "applyLabel": "Anwenden",
+      "cancelLabel": "Abbrechen",
+      "fromLabel": "Von",
+      "toLabel": "Bis",
+      "customRangeLabel": "Custom",
+      "weekLabel": "W",
+      "daysOfWeek": [
+        "So",
+        "Mo",
+        "Di",
+        "Mi",
+        "Do",
+        "Fr",
+        "Sa"
+      ],
+      "monthNames": [
+        "Januar",
+        "Februar",
+        "März",
+        "April",
+        "Mai",
+        "Juni",
+        "July",
+        "August",
+        "September",
+        "Oktober",
+        "November",
+        "Dezember"
+      ],
+      "firstDay": 1
+    }
+  };
   loadEvents().then(events => {
     let minDate = parseOutlookDate(events[0].start);
     let maxDate = parseOutlookDate(events[0].end);
@@ -95,11 +140,18 @@ async function setupDatepicker() {
         maxDate = eventEnd;
       }
     });
+    genericDatePickerConfig.minDate = minDate;
+    genericDatePickerConfig.maxDate = maxDate;
     // initialize date picker
     $('input[name="daterange"]')
-        .daterangepicker(
-            {time: true, minDate: minDate, maxDate: maxDate}, handleForm);
+      .daterangepicker(genericDatePickerConfig, handleForm);
     setStatus('Setting up DatePicker finished');
+  }).catch(error => {
+    console.error(error);
+    setStatus('Failed setting up daterangepicker: ' + error);
+    // setup anyways
+    $('input[name="daterange"]')
+      .daterangepicker(genericDatePickerConfig, handleForm);
   });
 }
 
@@ -139,7 +191,7 @@ async function handleForm() {
         totalTime += intersection + 0;  // milliseconds
       } else {
         console.log(
-            'Category \'' + category + '\' not included.', event.categories)
+          'Category \'' + category + '\' not included.', event.categories)
       }
     } else {
       console.log('Do not apply:')
@@ -150,9 +202,9 @@ async function handleForm() {
   setStatus('Calculating results...');
   let resultsHtml = '<table>';
   resultsHtml +=
-      '<tr><td>Time worked:</td><td>' + (totalTime / 3.6e+6) + ' h</td></tr>';
+    '<tr><td>Time worked:</td><td>' + (totalTime / 3.6e+6) + ' h</td></tr>';
   resultsHtml += '<tr><td>That makes:</td><td>' + (totalTime / 3.6e+6 * rate) +
-      '</td></tr>';
+    '</td></tr>';
   resultsHtml += '</table>';
   document.getElementById('results').innerHTML = resultsHtml;
   // finish up
@@ -163,20 +215,22 @@ function findCategories() {
   return new Promise(resolve => {
     setStatus('Loading categories.')
     loadEvents()
-        .then(events => {
-          setStatus('Finding categories.')
-          let categories = []
-          console.log(events);
-          events.forEach(
-              event => {event.categories.forEach(
-                  category => {categories.push(category)})})
-          resolve(categories);
-        })
-        .catch(error => {
-          console.error(error);
-          setStatus('Got error finding categories: ' + JSON.stringify(error));
-          throw error;  // throw futher up
-        });
+      .then(events => {
+        setStatus('Finding categories.')
+        let categories = []
+        console.log(events);
+        events.forEach(
+          event => {
+            event.categories.forEach(
+              category => { categories.push(category) })
+          })
+        resolve(categories);
+      })
+      .catch(error => {
+        console.error(error);
+        setStatus('Got error finding categories: ' + JSON.stringify(error));
+        throw error;  // throw futher up
+      });
   });
 }
 
@@ -192,8 +246,8 @@ async function loadEvents() {
       let p = restHandler.makeGetRequest(restUrl);
       console.log(p);
       p.then((results) => {
-         resolve(results.value);
-       }).catch(error => {
+        resolve(results.value);
+      }).catch(error => {
         console.error(error);
         setStatus('Got error fetching events: ' + JSON.stringify(error));
         throw error;
