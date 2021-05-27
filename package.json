@@ -29,14 +29,14 @@
     "msal": "^1.4.11"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.2",
+    "@babel/core": "^7.14.3",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.14.2",
-    "@types/office-js": "^1.0.178",
+    "@types/office-js": "^1.0.180",
     "@types/office-runtime": "^1.0.17",
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^4.0.0-alpha.0",
-    "copy-webpack-plugin": "^8.1.1",
+    "copy-webpack-plugin": "^9.0.0",
     "file-loader": "^6.2.0",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.1",
@@ -44,10 +44,10 @@
     "office-addin-debugging": "^4.1.8",
     "office-addin-dev-certs": "^1.5.20",
     "office-addin-manifest": "^1.5.24",
-    "source-map-loader": "^2.0.1",
-    "ts-loader": "^9.1.2",
-    "typescript": "^4.2.4",
-    "webpack": "^5.37.0",
+    "source-map-loader": "^3.0.0",
+    "ts-loader": "^9.2.2",
+    "typescript": "^4.3.2",
+    "webpack": "^5.37.1",
     "webpack-cli": "^4.7.0",
     "webpack-dev-server": "^3.11.2"
   }
