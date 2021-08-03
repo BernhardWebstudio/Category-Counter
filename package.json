@@ -30,7 +30,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",
-    "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.14.9",
     "@types/office-js": "^1.0.195",
     "@types/office-runtime": "^1.0.20",
