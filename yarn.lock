@@ -954,9 +954,9 @@
   integrity sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==
 
 "@types/node@*":
-  version "16.11.10"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.10.tgz#2e3ad0a680d96367103d3e670d41c2fed3da61ae"
-  integrity sha512-3aRnHa1KlOEEhJ6+CvyHKK5vE9BcLGjtUpwvqYLRvYNQKMfabu3BwfJaA/SLW8dxe28LsNDjtHwePTuzn3gmOA==
+  version "16.11.11"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.11.tgz#6ea7342dfb379ea1210835bada87b3c512120234"
+  integrity sha512-KB0sixD67CeecHC33MYn+eYARkqTheIRNuu97y2XMjR7Wu3XibO1vaY6VBV6O/a89SPI81cEUIYT87UqUWlZNw==
 
 "@types/office-js@^1.0.221":
   version "1.0.221"
@@ -1413,7 +1413,7 @@ braces@^3.0.1, braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
-browserslist@^4.14.5, browserslist@^4.17.5, browserslist@^4.17.6:
+browserslist@^4.14.5, browserslist@^4.17.5, browserslist@^4.18.1:
   version "4.18.1"
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.18.1.tgz#60d3920f25b6860eb917c6c7b185576f4d8b017f"
   integrity sha512-8ScCzdpPwR2wQh8IT82CA2VgDwjHyqMovPBZSNH54+tm4Jk2pCuv90gmAdH6J84OCRWi0b4gMe6O6XPXuJnjgQ==
@@ -1461,9 +1461,9 @@ camel-case@^4.1.2:
     tslib "^2.0.3"
 
 caniuse-lite@^1.0.30001280:
-  version "1.0.30001282"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001282.tgz#38c781ee0a90ccfe1fe7fefd00e43f5ffdcb96fd"
-  integrity sha512-YhF/hG6nqBEllymSIjLtR2iWDDnChvhnVJqp+vloyt2tEHFG1yBR+ac2B/rOw0qOK0m0lEXU2dv4E/sMk5P9Kg==
+  version "1.0.30001283"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001283.tgz#8573685bdae4d733ef18f78d44ba0ca5fe9e896b"
+  integrity sha512-9RoKo841j1GQFSJz/nCXOj0sD7tHBtlowjYlrqIUS812x9/emfBLBt6IyMz1zIaYc/eRL8Cs6HPUVi2Hzq4sIg==
 
 chalk@^2.0.0, chalk@^2.4.2:
   version "2.4.2"
@@ -1695,11 +1695,11 @@ copy-webpack-plugin@^10.0.0:
     serialize-javascript "^6.0.0"
 
 core-js-compat@^3.18.0, core-js-compat@^3.19.1:
-  version "3.19.1"
-  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.19.1.tgz#fe598f1a9bf37310d77c3813968e9f7c7bb99476"
-  integrity sha512-Q/VJ7jAF/y68+aUsQJ/afPOewdsGkDtcMb40J8MbuWKlK3Y+wtHq8bTHKPj2WKWLIqmS5JhHs4CzHtz6pT2W6g==
+  version "3.19.2"
+  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.19.2.tgz#18066a3404a302433cb0aa8be82dd3d75c76e5c4"
+  integrity sha512-ObBY1W5vx/LFFMaL1P5Udo4Npib6fu+cMokeziWkA8Tns4FcDemKF5j9JvaI5JhdkW8EQJQGJN1EcrzmEwuAqQ==
   dependencies:
-    browserslist "^4.17.6"
+    browserslist "^4.18.1"
     semver "7.0.0"
 
 core-util-is@~1.0.0:
@@ -1755,9 +1755,9 @@ debug@^3.1.1:
     ms "^2.1.1"
 
 debug@^4.1.0, debug@^4.1.1:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.2.tgz#f0a49c18ac8779e31d4a0c6029dfb76873c7428b"
-  integrity sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
+  integrity sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==
   dependencies:
     ms "2.1.2"
 
@@ -1773,7 +1773,7 @@ deep-equal@^1.0.1:
     object-keys "^1.1.1"
     regexp.prototype.flags "^1.2.0"
 
-default-gateway@^6.0.0:
+default-gateway@^6.0.3:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/default-gateway/-/default-gateway-6.0.3.tgz#819494c888053bdb743edbf343d6cdf7f2943a71"
   integrity sha512-fwSOJsbbNzZ/CUFpqFBqYfYNLj1NbMPm8MMCIzHjC83iSJRBEGmDUxU+WP661BaBQImeC2yHwXtz+P/O9o+XEg==
@@ -1924,9 +1924,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.3.896:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.0.tgz#7456192519838f881e35e4038bf4ad2c36353e63"
-  integrity sha512-+oXCt6SaIu8EmFTPx8wNGSB0tHQ5biDscnlf6Uxuz17e9CjzMRtGk9B8705aMPnj0iWr3iC74WuIkngCsLElmA==
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.5.tgz#912e8fd1645edee2f0f212558f40916eb538b1f9"
+  integrity sha512-YKaB+t8ul5crdh6OeqT2qXdxJGI0fAYb6/X8pDIyye+c3a7ndOCk5gVeKX+ABwivCGNS56vOAif3TN0qJMpEHw==
 
 emitter-listener@^1.0.1, emitter-listener@^1.1.1:
   version "1.1.2"
@@ -2501,9 +2501,9 @@ http-errors@~1.7.2:
     toidentifier "1.0.0"
 
 http-parser-js@>=0.5.1:
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/http-parser-js/-/http-parser-js-0.5.3.tgz#01d2709c79d41698bb01d4decc5e9da4e4a033d9"
-  integrity sha512-t7hjvef/5HEK7RWTdUzVUhl8zkEu+LlaE0IYzdMuvbSDipxBRpOn4Uhw8ZyECEa808iVT8XCjzo6xmYt4CiLZg==
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/http-parser-js/-/http-parser-js-0.5.5.tgz#d7c30d5d3c90d865b4a2e870181f9d6f22ac7ac5"
+  integrity sha512-x+JVEkO2PoM8qqpbPbOL3cqHPwerep7OwzK7Ay+sMQjKzaKCqWvjoXm5tqMP9tXWWTnTzAjIhXg+J99XYuPhPA==
 
 http-proxy-middleware@^2.0.0:
   version "2.0.1"
@@ -2604,16 +2604,6 @@ inquirer@^7.3.3:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
-internal-ip@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/internal-ip/-/internal-ip-6.2.0.tgz#d5541e79716e406b74ac6b07b856ef18dc1621c1"
-  integrity sha512-D8WGsR6yDt8uq7vDMu7mjcR+yRMm3dW8yufyChmszWRjcSHuxLBkR3GdS2HZAjodsaGuCvXeEJpueisXJULghg==
-  dependencies:
-    default-gateway "^6.0.0"
-    ipaddr.js "^1.9.1"
-    is-ip "^3.1.0"
-    p-event "^4.2.0"
-
 interpret@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-2.2.0.tgz#1a78a0b5965c40a5416d007ad6f50ad27c417df9"
@@ -2629,7 +2619,7 @@ ip@^1.1.0:
   resolved "https://registry.yarnpkg.com/ip/-/ip-1.1.5.tgz#bdded70114290828c0a039e72ef25f5aaec4354a"
   integrity sha1-vd7XARQpCCjAoDnnLvJfWq7ENUo=
 
-ipaddr.js@1.9.1, ipaddr.js@^1.9.1:
+ipaddr.js@1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.9.1.tgz#bff38543eeb8984825079ff3a2a8e6cbd46781b3"
   integrity sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==
@@ -2779,9 +2769,9 @@ isobject@^3.0.1:
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
 
 jest-worker@^27.0.6:
-  version "27.3.1"
-  resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-27.3.1.tgz#0def7feae5b8042be38479799aeb7b5facac24b2"
-  integrity sha512-ks3WCzsiZaOPJl/oMsDjaf0TRiSv7ctNgs0FqRr2nARsovz6AWWy4oLElwcquGSz692DzgZQrCLScPNs5YlC4g==
+  version "27.4.1"
+  resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-27.4.1.tgz#b4e77bd2effb9245171f342bd06c372054b67108"
+  integrity sha512-cWYUNkfST1i17513Ll3GM5h/lJtYR1hRZsfPL4OQkIBWgKj4kbJREgHhxJxZmOmjKyeAg02HRoMWXr+B/JtFgg==
   dependencies:
     "@types/node" "*"
     merge-stream "^2.0.0"
@@ -3195,46 +3185,46 @@ obuf@^1.0.0, obuf@^1.1.2:
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
   integrity sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==
 
-office-addin-cli@^1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/office-addin-cli/-/office-addin-cli-1.3.2.tgz#0fc089981eb896f45804e16934e12918dd6d5895"
-  integrity sha512-UbteR6WEgUCRo83PPIHd8hWZ4pFNNjfhBJBGdJwSNYN+6Hu+QQvndY5asfCs91HVhpCNsIkgStjYGzHh7GhU5w==
+office-addin-cli@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/office-addin-cli/-/office-addin-cli-1.3.3.tgz#4372ab630d3026d2aee8946f8798f649171c97cb"
+  integrity sha512-a7fPE7gMOG8+4P774ZufGwosZU0yZ/KlEyD8cS1qyBnuqvMlaZ8MBFAktFc2xKAt1WKDlf8h/52dPAzxYjJEHA==
   dependencies:
     commander "^6.2.1"
     node-fetch "^2.6.1"
     read-package-json-fast "^2.0.2"
 
-office-addin-debugging@^4.3.4:
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/office-addin-debugging/-/office-addin-debugging-4.3.4.tgz#f1ad8db2e95d02300a1398ea95f4c3b2c586d221"
-  integrity sha512-uFiRQJCBcCxbwK6Gn1GGq2freiourdLGEti63xJcNHs+/3CQAWJ/gCKZ6QQvtxH15ZC+EjONsIhY3emjgCDKRA==
+office-addin-debugging@^4.3.5:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/office-addin-debugging/-/office-addin-debugging-4.3.5.tgz#8a77ddb3fc54e1958bcfdc035785797f6f8c7f9d"
+  integrity sha512-T+cZzP7+ehtzS0IRr7ih9tlxUqScY8j93Ncd54vx69+lNMXQ8OUUZIjYGCpRsDERs4Z8jMKqDr9M7M+UsCaHDw==
   dependencies:
     child_process "^1.0.2"
     commander "^6.2.0"
     node-fetch "^2.6.1"
-    office-addin-cli "^1.3.2"
-    office-addin-dev-certs "^1.7.3"
-    office-addin-dev-settings "^1.10.4"
-    office-addin-manifest "^1.7.4"
-    office-addin-node-debugger "^0.6.3"
-    office-addin-usage-data "^1.4.3"
+    office-addin-cli "^1.3.3"
+    office-addin-dev-certs "^1.7.4"
+    office-addin-dev-settings "^1.10.5"
+    office-addin-manifest "^1.7.5"
+    office-addin-node-debugger "^0.6.4"
+    office-addin-usage-data "^1.4.4"
 
-office-addin-dev-certs@^1.7.3:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/office-addin-dev-certs/-/office-addin-dev-certs-1.7.3.tgz#f85c1cf66d21d04f3ced58eb187f8bb095bef526"
-  integrity sha512-EGEHXWMOFNyT/kTth46tlJ1+0+yTy0CPFtrHV2qxCEECbrYetXwRVl4Iax+O9F4Xmr67eIOnh8/L1EBIwdySXQ==
+office-addin-dev-certs@^1.7.4:
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/office-addin-dev-certs/-/office-addin-dev-certs-1.7.4.tgz#c25a2756bbee85e04d8104b15f56d3c9c4701d41"
+  integrity sha512-4JZjqT5G1GqSitYwufuurgMwo2m4DjOz6vgm3ufsI7VwA8rwfWLyF0WRY+zTEImSXzH5nZHNIaW4qHaKwA5uDg==
   dependencies:
     child_process "^1.0.2"
     commander "^6.2.0"
     fs-extra "^7.0.1"
     mkcert "^1.4.0"
-    office-addin-cli "^1.3.2"
-    office-addin-usage-data "^1.4.3"
+    office-addin-cli "^1.3.3"
+    office-addin-usage-data "^1.4.4"
 
-office-addin-dev-settings@^1.10.4:
-  version "1.10.4"
-  resolved "https://registry.yarnpkg.com/office-addin-dev-settings/-/office-addin-dev-settings-1.10.4.tgz#f5c7492aa4bc17a02272eb1dd584f7fbddcbdc7d"
-  integrity sha512-knPE4W7Y7KGRrjWB9qFRkvObM2FH9LKJUZHcvDkIqLZv9am3AgO91WLPdT7A9y/yTy3/iFqZpl5C0Z62g1Wrig==
+office-addin-dev-settings@^1.10.5:
+  version "1.10.5"
+  resolved "https://registry.yarnpkg.com/office-addin-dev-settings/-/office-addin-dev-settings-1.10.5.tgz#76ee80ff1c682c437e3594272c51447f157e02c5"
+  integrity sha512-Yuo0Tg1/sIjintIft/yIwmNjyWOm2pRJy1grDXAwJdco5B0fVOGFRFPjDD3m1UAsU8m/ufksePrgZLroGctxsw==
   dependencies:
     child_process "^1.0.2"
     commander "^6.2.0"
@@ -3242,46 +3232,46 @@ office-addin-dev-settings@^1.10.4:
     inquirer "^7.3.3"
     jszip "^3.7.1"
     junk "^3.1.0"
-    office-addin-cli "^1.3.2"
-    office-addin-manifest "^1.7.4"
-    office-addin-usage-data "^1.4.3"
+    office-addin-cli "^1.3.3"
+    office-addin-manifest "^1.7.5"
+    office-addin-usage-data "^1.4.4"
     open "^6.4.0"
     whatwg-url "^7.1.0"
     winreg "^1.2.4"
 
-office-addin-manifest@^1.7.4:
-  version "1.7.4"
-  resolved "https://registry.yarnpkg.com/office-addin-manifest/-/office-addin-manifest-1.7.4.tgz#40af2df209e21af05f1d164214b63e0dad08b705"
-  integrity sha512-OhcHCHNS77bXjXt944fYgvuKVUJMK8GxHlT9hKqXn810qDfalG0Q5/H49IWLNx3i4VY4Eu/myiFJmivOeU/MKw==
+office-addin-manifest@^1.7.5:
+  version "1.7.5"
+  resolved "https://registry.yarnpkg.com/office-addin-manifest/-/office-addin-manifest-1.7.5.tgz#7f8f2cd414cda6fd5a4ef38622b35c0c59c72674"
+  integrity sha512-nNLMncBjcq5Kx2SqxQMUA85ZiqzCdvcEpJRXPCo5t9Sh/1ZnN6opl+9eRgDMNVvIoAlTjr7vsf2DrO2niv6Xfw==
   dependencies:
     chalk "^2.4.2"
     commander "^6.2.0"
     node-fetch "^2.6.1"
-    office-addin-cli "^1.3.2"
-    office-addin-usage-data "^1.4.3"
+    office-addin-cli "^1.3.3"
+    office-addin-usage-data "^1.4.4"
     path "^0.12.7"
     uuid "^8.3.2"
     xml2js "^0.4.23"
 
-office-addin-node-debugger@^0.6.3:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/office-addin-node-debugger/-/office-addin-node-debugger-0.6.3.tgz#9ac37f4049fa00fb3f9311f2669082de74f71488"
-  integrity sha512-nvvWJI/KQwSKtLgCCDjWyBJMgR4VG7XQfLE0YQ7HGXAlaMu3P+zptbdCu+t7wFWVj729GSm3cHmSwdmgjqojMw==
+office-addin-node-debugger@^0.6.4:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/office-addin-node-debugger/-/office-addin-node-debugger-0.6.4.tgz#1bad5bcf5e5869c368c302651bc3e4a7d0bc2a70"
+  integrity sha512-ZM5WLqhz+lR36bX4NwDMilmYELxzIUmYhpljahM+wjY2/QUWb3UxCjUA/gZLqsFiyFMP9znEAdDLILxlxYk7xQ==
   dependencies:
     child_process "^1.0.2"
     commander "^6.2.0"
     node-fetch "^2.6.1"
-    office-addin-usage-data "^1.4.3"
+    office-addin-usage-data "^1.4.4"
     ws "^7.4.6"
 
-office-addin-usage-data@^1.4.3:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/office-addin-usage-data/-/office-addin-usage-data-1.4.3.tgz#92f37d24a5ce71d710ce4c88af945829265099dc"
-  integrity sha512-LLeXZdG23ulXBkI/2bKhMqDiRvl+mDw0AxETsiwUYF7KHOH9QuLUlfuMthyMX0vnXM4xI8b2M8/dLwQbeBZSsA==
+office-addin-usage-data@^1.4.4:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/office-addin-usage-data/-/office-addin-usage-data-1.4.4.tgz#0170bfcf723133ac017a329af01155dd46a0b0c6"
+  integrity sha512-nktlDXMRddpQ60iMmjmj8FzU6x2eRzzKORh58dNok/zWzHFxon8C/Tdu4HSMNaPDyRYfpAzTnY0Ev3fwIoV7UQ==
   dependencies:
     applicationinsights "^1.7.3"
     commander "^6.2.0"
-    office-addin-cli "^1.3.2"
+    office-addin-cli "^1.3.3"
     readline-sync "^1.4.9"
 
 on-finished@~2.3.0:
@@ -3331,18 +3321,6 @@ os-tmpdir@~1.0.2:
   resolved "https://registry.yarnpkg.com/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
   integrity sha1-u+Z0BseaqFxc/sdm/lc0VV36EnQ=
 
-p-event@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/p-event/-/p-event-4.2.0.tgz#af4b049c8acd91ae81083ebd1e6f5cae2044c1b5"
-  integrity sha512-KXatOjCRXXkSePPb1Nbi0p0m+gQAwdlbhi4wQKJPI1HsMQS9g+Sqp2o+QHziPr7eYJyOZet836KoHEVM1mwOrQ==
-  dependencies:
-    p-timeout "^3.1.0"
-
-p-finally@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/p-finally/-/p-finally-1.0.0.tgz#3fbcfb15b899a44123b34b6dcc18b724336a2cae"
-  integrity sha1-P7z7FbiZpEEjs0ttzBi3JDNqLK4=
-
 p-limit@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-2.3.0.tgz#3dd33c647a214fdfffd835933eb086da0dc21db1"
@@ -3376,13 +3354,6 @@ p-retry@^4.5.0:
   dependencies:
     "@types/retry" "^0.12.0"
     retry "^0.13.1"
-
-p-timeout@^3.1.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/p-timeout/-/p-timeout-3.2.0.tgz#c7e17abc971d2a7962ef83626b35d635acf23dfe"
-  integrity sha512-rhIwUycgwwKcP9yTOOFK/AKsAopjjCakVqLHePO3CC6Mir1Z99xT+R63jZxAT5lFZLa2inS5h+ZS2GvR99/FBg==
-  dependencies:
-    p-finally "^1.0.0"
 
 p-try@^2.0.0:
   version "2.2.0"
@@ -4327,7 +4298,7 @@ vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-watchpack@^2.2.0:
+watchpack@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-2.3.0.tgz#a41bca3da6afaff31e92a433f4c856a0c25ea0c4"
   integrity sha512-MnN0Q1OsvB/GGHETrFeZPQaOelWh/7O+EiFlj8sM9GPjtQkis7k01aAxrg/18kTfoIVcLL+haEVFlXDaSRwKRw==
@@ -4381,10 +4352,10 @@ webpack-dev-middleware@^5.2.1:
     range-parser "^1.2.1"
     schema-utils "^4.0.0"
 
-webpack-dev-server@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-4.5.0.tgz#614b5112cfa4730a4801bb4ddebb3be5b0d70497"
-  integrity sha512-Ss4WptsUjYa+3hPI4iYZYEc8FrtnfkaPrm5WTjk9ux5kiCS718836srs0ppKMHRaCHP5mQ6g4JZGcfDdGbCjpQ==
+webpack-dev-server@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-4.6.0.tgz#e8648601c440172d9b6f248d28db98bed335315a"
+  integrity sha512-oojcBIKvx3Ya7qs1/AVWHDgmP1Xml8rGsEBnSobxU/UJSX1xP1GPM3MwsAnDzvqcVmVki8tV7lbcsjEjk0PtYg==
   dependencies:
     ansi-html-community "^0.0.8"
     bonjour "^3.5.0"
@@ -4392,17 +4363,17 @@ webpack-dev-server@^4.5.0:
     colorette "^2.0.10"
     compression "^1.7.4"
     connect-history-api-fallback "^1.6.0"
+    default-gateway "^6.0.3"
     del "^6.0.0"
     express "^4.17.1"
     graceful-fs "^4.2.6"
     html-entities "^2.3.2"
     http-proxy-middleware "^2.0.0"
-    internal-ip "^6.2.0"
     ipaddr.js "^2.0.1"
     open "^8.0.9"
     p-retry "^4.5.0"
     portfinder "^1.0.28"
-    schema-utils "^3.1.0"
+    schema-utils "^4.0.0"
     selfsigned "^1.10.11"
     serve-index "^1.9.1"
     sockjs "^0.3.21"
@@ -4425,10 +4396,10 @@ webpack-sources@^3.2.2:
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-3.2.2.tgz#d88e3741833efec57c4c789b6010db9977545260"
   integrity sha512-cp5qdmHnu5T8wRg2G3vZZHoJPN14aqQ89SyQ11NpGH5zEMDCclt49rzo+MaRazk7/UeILhAI+/sEtcM+7Fr0nw==
 
-webpack@^5.64.3:
-  version "5.64.3"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.64.3.tgz#f4792cc3f8528db2c18375fa2cd269f69e0bf69f"
-  integrity sha512-XF6/IL9Bw2PPQioiR1UYA8Bs4tX3QXJtSelezKECdLFeSFzWoe44zqTzPW5N+xI3fACaRl2/G3sNA4WYHD7Iww==
+webpack@^5.64.4:
+  version "5.64.4"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.64.4.tgz#e1454b6a13009f57cc2c78e08416cd674622937b"
+  integrity sha512-LWhqfKjCLoYJLKJY8wk2C3h77i8VyHowG3qYNZiIqD6D0ZS40439S/KVuc/PY48jp2yQmy0mhMknq8cys4jFMw==
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.50"
@@ -4452,7 +4423,7 @@ webpack@^5.64.3:
     schema-utils "^3.1.0"
     tapable "^2.1.1"
     terser-webpack-plugin "^5.1.3"
-    watchpack "^2.2.0"
+    watchpack "^2.3.0"
     webpack-sources "^3.2.2"
 
 websocket-driver@>=0.5.1, websocket-driver@^0.7.4:
