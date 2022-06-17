@@ -29,25 +29,25 @@
     "msal": "^1.4.16"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.0",
-    "@babel/preset-env": "^7.18.0",
-    "@types/office-js": "^1.0.256",
+    "@babel/core": "^7.18.5",
+    "@babel/preset-env": "^7.18.2",
+    "@types/office-js": "^1.0.264",
     "@types/office-runtime": "^1.0.23",
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "file-loader": "^6.2.0",
-    "html-loader": "^3.1.0",
+    "html-loader": "^3.1.2",
     "html-webpack-plugin": "^5.5.0",
-    "office-addin-cli": "^1.3.6",
-    "office-addin-debugging": "^4.3.9",
-    "office-addin-dev-certs": "^1.7.8",
-    "office-addin-manifest": "^1.7.8",
-    "source-map-loader": "^3.0.1",
+    "office-addin-cli": "^1.3.8",
+    "office-addin-debugging": "^4.3.14",
+    "office-addin-dev-certs": "^1.7.10",
+    "office-addin-manifest": "^1.8.1",
+    "source-map-loader": "^4.0.0",
     "ts-loader": "^9.3.0",
-    "typescript": "^4.6.4",
-    "webpack": "^5.72.1",
-    "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.9.0"
+    "typescript": "^4.7.3",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.2"
   }
 }
