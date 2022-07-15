@@ -24,30 +24,30 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
-    "moment": "^2.29.3",
+    "moment": "^2.29.4",
     "moment-range": "^4.0.2",
     "msal": "^1.4.16"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.5",
-    "@babel/preset-env": "^7.18.2",
-    "@types/office-js": "^1.0.264",
-    "@types/office-runtime": "^1.0.23",
+    "@babel/core": "^7.18.6",
+    "@babel/preset-env": "^7.18.6",
+    "@types/office-js": "^1.0.267",
+    "@types/office-runtime": "^1.0.25",
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "file-loader": "^6.2.0",
-    "html-loader": "^3.1.2",
+    "html-loader": "^4.1.0",
     "html-webpack-plugin": "^5.5.0",
     "office-addin-cli": "^1.3.8",
     "office-addin-debugging": "^4.3.14",
     "office-addin-dev-certs": "^1.7.10",
     "office-addin-manifest": "^1.8.1",
     "source-map-loader": "^4.0.0",
-    "ts-loader": "^9.3.0",
-    "typescript": "^4.7.3",
+    "ts-loader": "^9.3.1",
+    "typescript": "^4.7.4",
     "webpack": "^5.73.0",
     "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.9.2"
+    "webpack-dev-server": "^4.9.3"
   }
 }
