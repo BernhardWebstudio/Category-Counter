@@ -47,12 +47,14 @@ module.exports = async (env, options) => {
         template: "./src/taskpane/taskpane.html",
         chunks: ["polyfill", "taskpane"]
       }),
-      new CopyWebpackPlugin([
-        {
-          to: "taskpane.css",
-          from: "./src/taskpane/taskpane.css"
-        }
-      ]),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            to: "taskpane.css",
+            from: "./src/taskpane/taskpane.css"
+          }
+        ]
+      }),
       new HtmlWebpackPlugin({
         filename: "commands.html",
         template: "./src/commands/commands.html",
@@ -63,7 +65,7 @@ module.exports = async (env, options) => {
       headers: {
         "Access-Control-Allow-Origin": "*"
       },      
-      https: (options.https !== undefined) ? options.https : await devCerts.getHttpsServerOptions(),
+      https: (options.mode === 'production' || options.https === false) ? false : (await devCerts.getHttpsServerOptions().catch(() => false)),
       port: process.env.npm_package_config_dev_server_port || 3000
     }
   };
